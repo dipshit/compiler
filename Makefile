@@ -1,5 +1,5 @@
 test:
-	go test -v --race
+	go test -v --race ./...
 
 simplify:
 	gofmt -w -s *.go
