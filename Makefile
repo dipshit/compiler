@@ -6,4 +6,4 @@ simplify:
 	golangci-lint run
 
 run:
-	go run translator.go
+	go run .

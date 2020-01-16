@@ -5,7 +5,7 @@ import (
 )
 
 func TestEvaluate(t *testing.T) {
-	sample := &SampleTranslator{}
+	sample := NewSampleTranslator()
 	val, err := sample.evaluate("1+2")
 	if err != nil {
 		t.Fatal(err)

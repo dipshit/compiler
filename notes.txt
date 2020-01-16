@@ -1,0 +1,6 @@
+lexical analysis
+build tables & run methods first. Eg readahead tables & run method for it
+
+scan and parse at the same time
+
+the stacks are all affected at the same time
