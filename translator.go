@@ -9,8 +9,6 @@ import (
 	"os"
 )
 
-type Token struct{}
-
 type SampleTranslator struct {
 	parser *transducer.Parser
 	tree   *ast.TreeNode
@@ -51,7 +49,8 @@ func (s *SampleTranslator) evaluateExpressionFor(tree *ast.TreeNode) (string, er
 	return "", nil
 }
 
-func (s *SampleTranslator) eval(tree *ast.TreeNode) {
+func (s *SampleTranslator) eval(tree *ast.TreeNode) string {
+	return ""
 }
 
 func main() {
