@@ -46,18 +46,31 @@ func TestEvaluatePlus(t *testing.T) {
 	tree := ast.NewTreeNode(token.NewToken("+", token.MULTIPLY))
 	tree.AddChild(ast.NewTreeNode(token.NewToken("9", token.INT)))
 	tree.AddChild(ast.NewTreeNode(token.NewToken("10", token.INT)))
-	val := evaluateMultiply(tree)
+	val := evaluatePlus(tree)
 	if val != 19 {
-		t.Fatalf("evaluateMultiply did not give 8, gave: %d", val)
+		t.Fatalf("evaluateMultiply did not give 19, gave: %d", val)
 	}
 }
 
 func TestEvaluateTreeWithPlus(t *testing.T) {
-	tree := ast.NewTreeNode(token.NewToken("+", token.MULTIPLY))
+	tree := ast.NewTreeNode(token.NewToken("+", token.PLUS))
 	tree.AddChild(ast.NewTreeNode(token.NewToken("3", token.INT)))
 	tree.AddChild(ast.NewTreeNode(token.NewToken("4", token.INT)))
 	val := evaluateTree(tree)
 	if val != 7 {
-		t.Fatalf("evaluateMultiply did not give 7, gave: %d", val)
+		t.Fatalf("evaluateTree did not give 7, gave: %d", val)
+	}
+}
+
+func TestEvaluateDeepTree(t *testing.T) {
+	tree := ast.NewTreeNode(token.NewToken("+", token.PLUS))
+	tree.AddChild(ast.NewTreeNode(token.NewToken("3", token.INT)))
+	tree2 := ast.NewTreeNode(token.NewToken("*", token.MULTIPLY))
+	tree2.AddChild(ast.NewTreeNode(token.NewToken("5", token.INT)))
+	tree2.AddChild(ast.NewTreeNode(token.NewToken("7", token.INT)))
+	tree.AddChild(tree2)
+	val := evaluateTree(tree)
+	if val != 38 {
+		t.Fatalf("evaluateTree did not give 38, gave: %d", val)
 	}
 }
