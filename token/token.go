@@ -12,10 +12,9 @@ type Token struct {
 type TokenType string
 
 const (
-	PLUS     = "+"
-	MULTIPLY = "*"
-	INT      = "INT"
-	EOF      = "EOF"
+	PLUS     = "+"   // 2 children
+	MULTIPLY = "*"   // 2 children
+	INT      = "INT" // no children
 )
 
 func NewToken(literal string, label TokenType) Token {

@@ -14,9 +14,14 @@ func NewTreeNode(token token.Token) *TreeNode {
 	return &TreeNode{token: token, children: make([]*TreeNode, 0)}
 }
 
+// copy of the token
+func (t *TreeNode) Token() token.Token {
+	return t.token
+}
+
 func (t *TreeNode) ToString() string {
 	if !t.HasChildren() {
-		return ""
+		return t.token.Literal()
 	}
 	str := t.token.Literal() + " newline "
 	for _, node := range t.children {
@@ -31,4 +36,8 @@ func (t *TreeNode) AddChild(node *TreeNode) {
 
 func (t *TreeNode) HasChildren() bool {
 	return len(t.children) != 0
+}
+
+func (t *TreeNode) Children() []*TreeNode {
+	return t.children
 }
