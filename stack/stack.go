@@ -16,22 +16,22 @@ type (
 )
 
 func NewStack() *Stack {
-	return Stack{nil, 0}
+	return &Stack{nil, 0}
 }
 
 func NewStackNode(t token.Token) *StackNode {
-	return StackNode{t}
+	return &StackNode{next: nil, token: t}
 }
 
 func (s *Stack) Len() int {
 	return s.length
 }
 
-func (s *Stack) Peek() token.Token {
+func (s *Stack) Peek() *token.Token {
 	if s.Len() == 0 {
 		return nil
 	}
-	return s.top.token
+	return &s.top.token
 }
 
 func (s *Stack) Push(t token.Token) {
@@ -41,13 +41,13 @@ func (s *Stack) Push(t token.Token) {
 	s.top = node
 }
 
-func (s *Stack) Pop() token.Token {
+func (s *Stack) Pop() *token.Token {
 	if s.Len() == 0 {
 		return nil
 	}
 
 	node := s.top
-	s.top = node.prev
-	this.length--
-	return node.token
+	s.top = node.next
+	s.length--
+	return &node.token
 }
