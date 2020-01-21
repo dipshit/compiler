@@ -18,13 +18,6 @@ type TableWithTransitions interface {
 // builds an array of tables
 func NewTableSet(transducer *transducer.Transducer) []Table {
 	tableSlice := make([]Table, 7)
-	tableSlice[0] = AcceptTable{transducer}
-	tableSlice[1] = SemanticTable{transducer}
-	tableSlice[2] = ShiftbackTable{transducer}
-	tableSlice[3] = ReadaheadTable{transducer}
-	tableSlice[4] = ReadbackTable{transducer}
-	tableSlice[4] = ReduceTable{transducer}
-	tableSlice[5] = ScannerReadaheadTable{transducer}
 	return tableSlice
 }
 
