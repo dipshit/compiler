@@ -63,6 +63,16 @@ func NewScannerTableSet(transducer *transducer.Transducer) []Table {
 				NewScannerRow(" ", token.R, 4),
 			},
 		},
+		SemanticTable{transducer, 5, "buildToken", token.EOF, 1},
+		SemanticTable{transducer, 6, "buildToken", token.LEFT_PAREN, 1},
+		SemanticTable{transducer, 7, "buildToken", token.RIGHT_PAREN, 1},
+		SemanticTable{transducer, 8, "buildToken", token.MULTIPLY, 1},
+		SemanticTable{transducer, 9, "buildToken", token.PLUS, 1},
+		SemanticTable{transducer, 10, "buildToken", token.COMMA, 1},
+		SemanticTable{transducer, 11, "buildToken", token.INT, 1},
+		SemanticTable{transducer, 12, "buildToken", token.SEMI, 1},
+		SemanticTable{transducer, 13, "buildToken", token.ASSIGN, 1},
+		SemanticTable{transducer, 14, "buildToken", token.IDENT, 1},
 	}
 	return table
 }

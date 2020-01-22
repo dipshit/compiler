@@ -19,11 +19,11 @@ const (
 	INT         = "INT"   // no children
 	LEFT_PAREN  = "("     // 1 child
 	RIGHT_PAREN = ")"     // no children
-	BAR         = "-|"    // ?
-	COMMA       = ","     // ?
+	EOF         = "-|"    // no children
+	COMMA       = ","     // 2 children
 	SEMI        = ";"     // no children
 	ASSIGN      = "="     // 2 children
-	IDENT       = "IDENT" // ?
+	IDENT       = "IDENT" // no children
 
 	// TokenActions
 	RK = "RK"
