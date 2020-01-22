@@ -1,6 +1,7 @@
 package tables
 
 import (
+	"github.com/dipshit/compiler/token"
 	"github.com/dipshit/compiler/transducer"
 )
 
@@ -21,12 +22,69 @@ func NewTableSet(transducer *transducer.Transducer) []Table {
 	return tableSlice
 }
 
+func NewScannerTableSet(transducer *transducer.Transducer) []Table {
+	table := []Table{
+		ScannerReadaheadTable{transducer, 0,
+			[]*ScannerRow{
+				// EOF row is dummy, should compare to io.EOF
+				NewScannerRow("EOF", token.L, 5),
+				NewScannerRow(")", token.RK, 7),
+				NewScannerRow("*", token.RK, 8),
+				NewScannerRow("+", token.RK, 9),
+				NewScannerRow(",", token.RK, 10),
+				NewScannerRow("0123456789", token.RK, 2),
+				NewScannerRow("(", token.RK, 6),
+				NewScannerRow(";", token.RK, 12),
+				NewScannerRow("=", token.RK, 13),
+				NewScannerRow("ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz", token.RK, 3),
+				NewScannerRow("\t\n\f\r", token.R, 4),
+				NewScannerRow(" ", token.R, 4),
+			},
+		},
+		ScannerReadaheadTable{transducer, 1,
+			[]*ScannerRow{
+				NewScannerRow("\t\n\f\r", token.L, 11),
+				NewScannerRow("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_+*=[]{}()^;#:.$ ", token.L, 11),
+				NewScannerRow("0123456789", token.RK, 2),
+			},
+		},
+		ScannerReadaheadTable{transducer, 2,
+			[]*ScannerRow{
+				NewScannerRow("\t\n\f\r", token.L, 14),
+				NewScannerRow("+*=[]{}()^;#:.$ ", token.L, 14),
+				NewScannerRow("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz", token.RK, 3),
+			},
+		},
+		ScannerReadaheadTable{transducer, 3,
+			[]*ScannerRow{
+				NewScannerRow("EOF", token.L, 1),
+				NewScannerRow("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz_0123456789+*=[]{}()^;#:.$", token.L, 1),
+				NewScannerRow("\t\n\f\r", token.R, 4),
+				NewScannerRow(" ", token.R, 4),
+			},
+		},
+	}
+	return table
+}
+
 type AcceptTable struct {
 	transducer *transducer.Transducer
 }
 
 type ScannerReadaheadTable struct {
 	transducer *transducer.Transducer
+	index      int
+	rows       []*ScannerRow
+}
+
+func NewScannerRow(regexpr string, action token.TokenAction, next int) *ScannerRow {
+	return &ScannerRow{regexpr, action, next}
+}
+
+type ScannerRow struct {
+	regexpr string            // some sort of string or array
+	action  token.TokenAction // action to do
+	next    int               // next row to run
 }
 
 type ReadaheadTable struct {
@@ -39,6 +97,10 @@ type ReadbackTable struct {
 
 type SemanticTable struct {
 	transducer *transducer.Transducer
+	index      int
+	action     string
+	tok        token.TokenType
+	next       int
 }
 
 type ReduceTable struct {
