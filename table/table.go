@@ -3,6 +3,7 @@ package tables
 import (
 	"github.com/dipshit/compiler/token"
 	"github.com/dipshit/compiler/transducer"
+	"strings"
 )
 
 type Table interface {
@@ -127,7 +128,21 @@ func (a AcceptTable) Run() int {
 }
 
 func (a ScannerReadaheadTable) Run() int {
-	return -1
+	char := a.transducer.PeekInput()
+	action, jump := a.transducer.Transitions(char)
+	// need to panic if this can't be read
+
+	if action == token.L {
+		// don't read
+		return a.next
+	}
+	if action == token.RK {
+		// add character to keep
+		a.transducer.KeepChar(char)
+	}
+	// read the char
+	a.transducer.DiscardInput()
+	return a.next
 }
 
 func (a ReadaheadTable) Run() int {
@@ -139,7 +154,12 @@ func (a ReadbackTable) Run() int {
 }
 
 func (a SemanticTable) Run() int {
-	return -1
+	if a.action == "buildToken" {
+		a.transducer.BuildToken(a.tok)
+	} else if a.action == "buildTree" {
+		a.transducer.BuildTree()
+	}
+	return a.next
 }
 
 func (a ReduceTable) Run() int {

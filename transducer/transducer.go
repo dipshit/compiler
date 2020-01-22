@@ -7,7 +7,11 @@ import (
 
 type Transducer struct{}
 type Screener struct{}
-type Scanner struct{}
+type Scanner struct {
+	input          string
+	token          token.Token
+	keptCharacters string
+}
 type Parser struct {
 	//scanner screener tokenStack tableNumberStack treeStack left right tableNumber newTree
 }
@@ -35,4 +39,34 @@ func (t *Transducer) Evaluate(text string) (string, error) {
 // wrap eval and recover from its panics
 func (t *Transducer) evaluateExpressionFor(tree *ast.TreeNode) (string, error) {
 	return "", nil
+}
+
+// peek in stream
+func (t *Transducer) PeekInput() string {
+	// TODO
+	return ""
+}
+
+func (t *Transducer) BuildToken(label token.TokenType) {
+	// TODO
+	//t.token = NewToken(t.keptCharacters, label)
+	//t.keptCharacters = ""
+}
+
+func (t *Transducer) BuildTree() {
+	// TODO
+}
+
+func (t *Transducer) Transitions(char string) (token.TokenAction, int) {
+	// TODO
+	// return a token action and the jump from the transition
+	return token.L, 1
+}
+
+func (t *Transducer) KeepChar(char string) {
+	// TODO
+}
+
+func (t *Transducer) DiscardInput() {
+	// TODO
 }
